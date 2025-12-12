@@ -41,4 +41,4 @@ Sistemde tanımlı iki rol mevcuttur.
 5.  Tarayıcıda `http://localhost:5271` adresini ziyaret edin.
 
 ---
-**Geliştirici:** [Öğrenci Adı Soyadı] - [Öğrenci Numarası]
+**Geliştirici:** NUMAN AK - B221210105
