@@ -8,18 +8,18 @@ namespace SakaryaFitnessApp.Models
 
         [Required(ErrorMessage = "Hizmet adı zorunludur.")]
         [Display(Name = "Hizmet Adı")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty; // <-- Uyarı giderildi
 
-        [Required(ErrorMessage = "Süre zorunludur.")]
-        [Display(Name = "Süre (Dakika)")]
+        [Display(Name = "Süre (dk)")]
         public int DurationMinutes { get; set; }
 
-        [Required(ErrorMessage = "Fiyat zorunludur.")]
         [Display(Name = "Fiyat (TL)")]
         public decimal Price { get; set; }
 
-        // Yeni eklediğimiz alan:
-        [Display(Name = "Hizmet Resmi")]
+        [Display(Name = "Resim URL")]
         public string? ImageUrl { get; set; }
+
+        // İlişkiler
+        public ICollection<Appointment>? Appointments { get; set; } // <-- Null atanabilir
     }
 }

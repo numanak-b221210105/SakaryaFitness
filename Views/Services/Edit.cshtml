@@ -4,51 +4,48 @@
     ViewData["Title"] = "Hizmet Düzenle";
 }
 
-<h1>Hizmet Düzenle</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ImageUrl" />
+<h1 class="display-4 fw-bold mb-4">Hizmeti Düzenle: @Model.Name</h1>
 
-            <div class="form-group mb-3">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group mb-3">
-                <label asp-for="DurationMinutes" class="control-label"></label>
-                <input asp-for="DurationMinutes" class="form-control" />
-                <span asp-validation-for="DurationMinutes" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group mb-3">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                    <input type="hidden" asp-for="Id" />
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control" placeholder="Hizmet Adı" />
+                        <label asp-for="Name"></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group mb-3">
-                <label class="control-label">Mevcut Resim</label><br/>
-                @if(!string.IsNullOrEmpty(Model.ImageUrl))
-                {
-                    <img src="@Model.ImageUrl" width="100" class="img-thumbnail mb-2" />
-                }
-                else
-                {
-                    <span>Resim Yok</span>
-                }
-                <input type="file" name="file" class="form-control" />
+                    <div class="form-floating mb-3">
+                        <input asp-for="DurationMinutes" class="form-control" placeholder="Süre (dk)" type="number" />
+                        <label asp-for="DurationMinutes"></label>
+                        <span asp-validation-for="DurationMinutes" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Price" class="form-control" placeholder="Fiyat (TL)" />
+                        <label asp-for="Price"></label>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="ImageUrl" class="form-control" placeholder="Resim URL" />
+                        <label asp-for="ImageUrl"></label>
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        <small class="text-muted d-block mt-2">Mevcut resim: <a href="@Model.ImageUrl" target="_blank">@Model.ImageUrl</a></small>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg"><i class="bi bi-save me-2"></i> Değişiklikleri Kaydet</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Listeye Geri Dön</a>
+                    </div>
+                </form>
             </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Güncelle" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

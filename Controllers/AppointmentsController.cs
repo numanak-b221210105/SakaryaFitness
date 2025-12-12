@@ -36,6 +36,8 @@ namespace SakaryaFitnessApp.Controllers
                 .Include(a => a.Service)
                 .AsQueryable();
 
+            // SADECE ÜYE İSE, KENDİSİNİN ALDIĞI RANDEVULARI GÖSTER
+            // Bu, güvenlik ve görünürlük açısından önemlidir.
             if (!isAdmin)
             {
                 randevular = randevular.Where(a => a.MemberId == userId);
@@ -57,7 +59,7 @@ namespace SakaryaFitnessApp.Controllers
 
             if (appointment == null) return NotFound();
 
-            // Yetki Kontrolü
+            // Yetki Kontrolü: Admin değilse ve kendi randevusu değilse yasakla
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!User.IsInRole("Admin") && appointment.MemberId != userId) return Forbid();
 
@@ -78,6 +80,8 @@ namespace SakaryaFitnessApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,TrainerId,ServiceId")] Appointment appointment)
         {
+            appointment.Date = DateTime.SpecifyKind(appointment.Date, DateTimeKind.Utc);
+            
             appointment.MemberId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             appointment.Status = "Onay Bekliyor"; 
 
@@ -108,7 +112,7 @@ namespace SakaryaFitnessApp.Controllers
             var appointment = await _context.Appointments.FindAsync(id);
             if (appointment == null) return NotFound();
 
-            // Yetki Kontrolü
+            // Yetki Kontrolü: Admin değilse ve kendi randevusu değilse yasakla
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!User.IsInRole("Admin") && appointment.MemberId != userId) return Forbid();
 
@@ -124,7 +128,9 @@ namespace SakaryaFitnessApp.Controllers
         {
             if (id != appointment.Id) return NotFound();
 
-            // Çakışma Kontrolü (Kendisi hariç diğer randevularla)
+            appointment.Date = DateTime.SpecifyKind(appointment.Date, DateTimeKind.Utc);
+
+            // Çakışma Kontrolü
             bool cakisma = _context.Appointments.Any(a => 
                 a.TrainerId == appointment.TrainerId && 
                 a.Date == appointment.Date &&
@@ -164,7 +170,7 @@ namespace SakaryaFitnessApp.Controllers
 
             if (appointment == null) return NotFound();
 
-            // Yetki Kontrolü
+            // Yetki Kontrolü: Admin değilse ve kendi randevusu değilse yasakla
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!User.IsInRole("Admin") && appointment.MemberId != userId) return Forbid();
 

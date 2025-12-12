@@ -3,34 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SakaryaFitnessApp.Data;
 using SakaryaFitnessApp.Models;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization; 
 
 namespace SakaryaFitnessApp.Controllers
 {
-    [Route("Antrenorler")]
+    // Controller seviyesinde girişi zorunlu kılar (Index hariç)
+    [Authorize] 
+    [Route("Antrenorler")] 
     public class TrainersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _hostEnvironment; // Dosya yolu bulmak için gerekli
 
-        public TrainersController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public TrainersController(ApplicationDbContext context)
         {
             _context = context;
-            _hostEnvironment = hostEnvironment;
         }
 
+        // GET: /Antrenorler (Index) - HERKES GÖREBİLİR
+        [AllowAnonymous] // <<< KRİTİK: Herkesin listeyi görmesini sağlar
         [Route("")]
-        [Route("Index")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Trainers.ToListAsync());
         }
 
+        // GET: /Antrenorler/Detay/5 - HERKES GÖREBİLİR
+        [AllowAnonymous] 
         [Route("Detay/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
@@ -40,32 +42,19 @@ namespace SakaryaFitnessApp.Controllers
             return View(trainer);
         }
 
+        // GET: /Antrenorler/Yeni - SADECE ADMIN
+        [Authorize(Roles = "Admin")] 
         [Route("Yeni")]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
-        // RESİM YÜKLEME KISMI (CREATE)
+        // POST: /Antrenorler/Yeni - SADECE ADMIN
+        [Authorize(Roles = "Admin")] 
         [HttpPost("Yeni")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,Expertise")] Trainer trainer, IFormFile? file)
+        public async Task<IActionResult> Create([Bind("Id,FullName,Expertise,ImageUrl")] Trainer trainer)
         {
             if (ModelState.IsValid)
             {
-                if (file != null)
-                {
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string path = Path.Combine(wwwRootPath, "images", fileName);
-
-                    using (var fileStream = new FileStream(path, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-                    trainer.ImageUrl = "/images/" + fileName;
-                }
-
                 _context.Add(trainer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -73,6 +62,8 @@ namespace SakaryaFitnessApp.Controllers
             return View(trainer);
         }
 
+        // GET: /Antrenorler/Duzenle/5 - SADECE ADMIN
+        [Authorize(Roles = "Admin")]
         [Route("Duzenle/{id?}")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -82,31 +73,17 @@ namespace SakaryaFitnessApp.Controllers
             return View(trainer);
         }
 
-        // RESİM GÜNCELLEME KISMI (EDIT)
+        // POST: /Antrenorler/Duzenle/5 - SADECE ADMIN
+        [Authorize(Roles = "Admin")] 
         [HttpPost("Duzenle/{id?}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Expertise,ImageUrl")] Trainer trainer, IFormFile? file)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Expertise,ImageUrl")] Trainer trainer)
         {
             if (id != trainer.Id) return NotFound();
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Yeni dosya seçildiyse eskisini ez
-                    if (file != null)
-                    {
-                        string wwwRootPath = _hostEnvironment.WebRootPath;
-                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string path = Path.Combine(wwwRootPath, "images", fileName);
-
-                        using (var fileStream = new FileStream(path, FileMode.Create))
-                        {
-                            await file.CopyToAsync(fileStream);
-                        }
-                        trainer.ImageUrl = "/images/" + fileName;
-                    }
-                    
                     _context.Update(trainer);
                     await _context.SaveChangesAsync();
                 }
@@ -120,6 +97,8 @@ namespace SakaryaFitnessApp.Controllers
             return View(trainer);
         }
 
+        // GET: /Antrenorler/Sil/5 - SADECE ADMIN
+        [Authorize(Roles = "Admin")]
         [Route("Sil/{id?}")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -129,6 +108,8 @@ namespace SakaryaFitnessApp.Controllers
             return View(trainer);
         }
 
+        // POST: /Antrenorler/Sil/5 - SADECE ADMIN
+        [Authorize(Roles = "Admin")] 
         [HttpPost("Sil/{id?}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

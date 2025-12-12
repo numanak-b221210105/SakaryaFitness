@@ -1,39 +1,36 @@
 @model SakaryaFitnessApp.Models.Trainer
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Silme Onayı";
 }
 
-<h1>Delete</h1>
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <h1 class="text-danger fw-bold mb-4"><i class="bi bi-exclamation-triangle-fill me-2"></i> Silme Onayı</h1>
+        <p class="lead">
+            Bu antrenör kaydını **kalıcı olarak silmek** istediğinizden emin misiniz? Bu işlem geri alınamaz.
+        </p>
+        
+        <div class="card shadow-sm rounded-4 border-danger border-2 mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title fw-bold">Silinecek Antrenör Detayları:</h4>
+                <ul class="list-group list-group-flush mt-3">
+                    <li class="list-group-item">
+                        <strong>@Html.DisplayNameFor(model => model.FullName):</strong> @Html.DisplayFor(model => model.FullName)
+                    </li>
+                    <li class="list-group-item">
+                        <strong>@Html.DisplayNameFor(model => model.Expertise):</strong> @Html.DisplayFor(model => model.Expertise)
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Trainer</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Expertise)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Expertise)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a asp-action="Index" class="btn btn-secondary btn-lg">İptal Et ve Geri Dön</a>
+                <button type="submit" class="btn btn-danger btn-lg"><i class="bi bi-trash me-2"></i> Silmeyi Onayla</button>
+            </div>
+        </form>
+    </div>
 </div>

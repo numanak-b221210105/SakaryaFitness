@@ -1,0 +1,46 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profilim";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3 class="mb-4 fw-bold text-primary"><i class="bi bi-gear-fill me-2"></i>Hesap Ayarları</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-light p-3">
+                <h5 class="mb-0 fw-bold text-dark">Profil Bilgileri</h5>
+            </div>
+            <div class="card-body p-4">
+                <form id="profile-form" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Username" class="form-control bg-light" disabled />
+                        <label asp-for="Username" class="form-label">Kullanıcı Adı (E-posta)</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Telefon Numarası" />
+                        <label asp-for="Input.PhoneNumber" class="form-label">Telefon Numarası</label>
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <button id="update-profile-button" type="submit" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
+                            <i class="bi bi-check-lg me-2"></i> Değişiklikleri Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -5,8 +5,15 @@
 <ul class="navbar-nav align-items-center">
 @if (SignInManager.IsSignedIn(User))
 {
+    // Kullanıcının "FullName" bilgisini çekmeye çalışıyoruz
+    var fullName = User.FindFirst("FullName")?.Value;
+    // Eğer FullName yoksa (eski üyeler için), e-posta adresini kullan
+    var displayName = !string.IsNullOrEmpty(fullName) ? fullName : User.Identity?.Name;
+
     <li class="nav-item me-3">
-        <a class="nav-link text-dark fw-bold" asp-area="Identity" asp-page="/Account/Manage/Index" title="Profil">Merhaba, @User.Identity?.Name!</a>
+        <a class="nav-link text-dark fw-bold" asp-area="Identity" asp-page="/Account/Manage/Index" title="Profil">
+            Merhaba, @displayName!
+        </a>
     </li>
     <li class="nav-item">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

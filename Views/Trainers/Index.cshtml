@@ -1,44 +1,89 @@
 @model IEnumerable<SakaryaFitnessApp.Models.Trainer>
 
 @{
-    ViewData["Title"] = "Antrenörler";
+    ViewData["Title"] = "Antrenör Listemiz";
+    var isAdmin = User.IsInRole("Admin");
 }
 
-<h1>Antrenör Listesi</h1>
+<style>
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+</style>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Yeni Antrenör Ekle</a>
+
+<h1 class="display-4 fw-bold mb-4">Antrenör Listemiz</h1>
+
+<p class="mb-5">
+    @if (isAdmin)
+    {
+        <a asp-action="Create" class="btn btn-success btn-lg rounded-pill px-4 shadow-sm">
+            <i class="bi bi-person-plus-fill me-2"></i> Yeni Antrenör Ekle
+        </a>
+    }
 </p>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Fotoğraf</th>
-            <th>Ad Soyad</th>
-            <th>Uzmanlık</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @if(!string.IsNullOrEmpty(item.ImageUrl))
-                {
-                    <img src="@item.ImageUrl" width="80" height="80" style="object-fit:cover; border-radius:50%;" />
-                }
-                else
-                {
-                    <span>Resim Yok</span>
-                }
-            </td>
-            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-            <td>@Html.DisplayFor(modelItem => item.Expertise)</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a> 
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detay</a> 
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
-            </td>
-        </tr>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">Antrenör Bulunamadı!</h4>
+        <p>Sistemde henüz kayıtlı antrenör bulunmamaktadır. Lütfen bir antrenör ekleyin veya veritabanı bağlantınızı kontrol edin.</p>
+        @if (isAdmin)
+        {
+            <hr>
+            <p class="mb-0">Yönetici olarak yukarıdaki butonu kullanarak yeni antrenör ekleyebilirsiniz.</p>
+        }
+    </div>
 }
-    </tbody>
-</table>
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 overflow-hidden hover-shadow transition-all">
+                    <div class="card-body p-4 text-center">
+                        
+                        <div class="mb-3">
+                            @if(!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" class="rounded-circle border border-primary border-4" 
+                                     alt="@item.FullName" style="width: 150px; height: 150px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="bg-light text-muted rounded-circle mx-auto d-flex align-items-center justify-content-center border" style="width: 150px; height: 150px;">
+                                    <i class="bi bi-person-fill fs-1"></i>
+                                </div>
+                            }
+                        </div>
+
+                        <h3 class="card-title fw-bold text-dark">@item.FullName</h3>
+                        <p class="card-text text-primary fw-semibold">
+                            <i class="bi bi-star-fill me-1"></i> @item.Expertise
+                        </p>
+
+                        <div class="mt-4 pt-3 border-top">
+                            @if (isAdmin)
+                            {
+                                <div class="d-grid gap-2">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary mb-2">Detayları Gör</a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning mb-2">Düzenle</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary w-100">Detayları Gör</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

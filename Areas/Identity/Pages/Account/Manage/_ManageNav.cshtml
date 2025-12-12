@@ -1,0 +1,30 @@
+@using SakaryaFitnessApp.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<div class="list-group list-group-flush rounded-3 shadow-sm overflow-hidden">
+    <a class="list-group-item list-group-item-action p-3 fw-bold @(ViewContext.RouteData.Values["Page"].ToString() == "/Account/Manage/Index" ? "active" : "")" asp-page="./Index">
+        <i class="bi bi-person-circle me-2"></i> Profil Bilgileri
+    </a>
+    <a class="list-group-item list-group-item-action p-3 fw-bold @(ViewContext.RouteData.Values["Page"].ToString() == "/Account/Manage/Email" ? "active" : "")" asp-page="./Email">
+        <i class="bi bi-envelope-fill me-2"></i> E-posta Ayarları
+    </a>
+    <a class="list-group-item list-group-item-action p-3 fw-bold @(ViewContext.RouteData.Values["Page"].ToString() == "/Account/Manage/ChangePassword" ? "active" : "")" asp-page="./ChangePassword">
+        <i class="bi bi-key-fill me-2"></i> Şifre Değiştir
+    </a>
+    @if (hasExternalLogins)
+    {
+        <a class="list-group-item list-group-item-action p-3 fw-bold @(ViewContext.RouteData.Values["Page"].ToString() == "/Account/Manage/ExternalLogins" ? "active" : "")" asp-page="./ExternalLogins">
+            <i class="bi bi-google me-2"></i> Sosyal Hesaplar
+        </a>
+    }
+    <a class="list-group-item list-group-item-action p-3 fw-bold @(ViewContext.RouteData.Values["Page"].ToString() == "/Account/Manage/TwoFactorAuthentication" ? "active" : "")" asp-page="./TwoFactorAuthentication">
+        <i class="bi bi-shield-lock-fill me-2"></i> İki Adımlı Doğrulama
+    </a>
+    <a class="list-group-item list-group-item-action p-3 fw-bold @(ViewContext.RouteData.Values["Page"].ToString() == "/Account/Manage/PersonalData" ? "active" : "")" asp-page="./PersonalData">
+        <i class="bi bi-file-earmark-person-fill me-2"></i> Kişisel Veriler
+    </a>
+</div>

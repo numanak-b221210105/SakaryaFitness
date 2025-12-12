@@ -1,48 +1,45 @@
 @model SakaryaFitnessApp.Models.Trainer
 
 @{
-    ViewData["Title"] = "Düzenle";
+    ViewData["Title"] = "Antrenör Düzenle";
 }
 
-<h1>Antrenör Düzenle</h1>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ImageUrl" />
+<h1 class="display-4 fw-bold mb-4">Antrenör Düzenle: @Model.FullName</h1>
 
-            <div class="form-group mb-3">
-                <label class="control-label">Ad Soyad</label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                    <input type="hidden" asp-for="Id" />
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="FullName" class="form-control" placeholder="Ad Soyad" />
+                        <label asp-for="FullName"></label>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Expertise" class="form-control" placeholder="Örn: Fitness, Yoga" />
+                        <label asp-for="Expertise"></label>
+                        <span asp-validation-for="Expertise" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="ImageUrl" class="form-control" placeholder="Örn: http://..." />
+                        <label asp-for="ImageUrl"></label>
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        <small class="text-muted d-block mt-2">Mevcut fotoğraf: <a href="@Model.ImageUrl" target="_blank">@Model.ImageUrl</a></small>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg"><i class="bi bi-save me-2"></i> Değişiklikleri Kaydet</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Listeye Geri Dön</a>
+                    </div>
+                </form>
             </div>
-            
-            <div class="form-group mb-3">
-                <label class="control-label">Uzmanlık Alanı</label>
-                <input asp-for="Expertise" class="form-control" />
-                <span asp-validation-for="Expertise" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group mb-3">
-                <label class="control-label">Mevcut Fotoğraf</label><br/>
-                @if(!string.IsNullOrEmpty(Model.ImageUrl))
-                {
-                    <img src="@Model.ImageUrl" width="100" class="img-thumbnail mb-2" />
-                }
-                else
-                {
-                    <span>Fotoğraf yok</span>
-                }
-                <input type="file" name="file" class="form-control" />
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="Güncelle" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

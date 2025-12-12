@@ -2,43 +2,46 @@
 
 ## 🎯 Proje Amacı ve Konsept
 
-[cite_start]Bu proje, Web Programlama dersi kapsamında [cite: 4] [cite_start]ASP.NET Core MVC teknolojileri kullanılarak geliştirilmiştir. [cite: 6, 36] [cite_start]Projenin temel amacı, bir spor salonunun (Fitness Center) yönetim süreçlerini dijitalleştirmek, [cite: 6] [cite_start]antrenör-üye iletişimini kolaylaştırmak ve yapay zekâ destekli kişiselleştirilmiş spor deneyimleri sunmaktır. [cite: 7, 8]
+Bu proje, Web Programlama dersi kapsamında ASP.NET Core MVC teknolojileri kullanılarak geliştirilmiştir. Projenin temel amacı, öğrenilen bilgileri gerçek bir probleme uygulayarak, bir spor salonunun yönetim süreçlerini dijitalleştiren ve üyelere kişiselleştirilmiş spor deneyimleri sunan bir web uygulaması geliştirmektir.
+
+Sistem, spor salonlarının sunduğu hizmetleri, antrenörlerin uzmanlık alanlarını, üyelerin randevularını ve yapay zekâ tabanlı egzersiz önerilerini yönetebilecek nitelikte olacaktır.
 
 ## ✨ Ana Özellikler (Proje Gereksinimleri)
 
-| Özellik Alanı | Açıklama | Ödev Maddesi |
-| :--- | :--- | :--- |
-| **Antrenör & Hizmet Yönetimi** | Salon hizmetleri (fitness, yoga, pilates vb.) ve antrenörler sisteme tanımlanır. [cite_start]Tüm temel varlıklar için **CRUD** işlemleri tam olarak uygulanmıştır. [cite: 12, 15, 45] | 1 & 2 |
-| **Üye ve Randevu Sistemi** | [cite_start]Üyeler, uygun antrenör ve hizmete göre sistem üzerinden randevu alabilir. [cite: 19] [cite_start]Randevu çakışma kontrol mekanizması mevcuttur. [cite: 20] | 3 |
-| **Yetkilendirme (Auth)** | **Rol bazlı yetkilendirme** uygulanmıştır. [cite_start]Minimum iki rol (Admin ve Üye) bulunmaktadır. [cite: 49] | 4 |
-| **REST API ve Raporlama** | [cite_start]Projenin en az bir bölümünde REST API kullanılmıştır. [cite: 24] API üzerinden Antrenör, Hizmet ve Randevu verileri JSON formatında sunulur. [cite_start]**LINQ sorguları** ile filtreleme gerçekleştirilmiştir. [cite: 25, 54] | 5 |
-| **Yapay Zeka (AI) Entegrasyonu** | [cite_start]Kullanıcıların boy/kilo ve hedef bilgisi girerek kendilerine özel egzersiz ve diyet planı önerileri alabilmeleri sağlanmıştır. [cite: 31, 32] | 6 |
+| Özellik Alanı | Açıklama |
+| :--- | :--- |
+| **Antrenör & Hizmet Yönetimi** | Salon hizmetleri ve antrenörler sisteme tanımlanır. Antrenörlerin uzmanlık alanları belirtilir. Tüm temel varlıklar için **CRUD** (Oluşturma, Okuma, Güncelleme, Silme) işlemleri tam olarak uygulanmıştır. |
+| **Üye ve Randevu Sistemi** | Kullanıcılar, uygun antrenör ve hizmete göre sistem üzerinden randevu alabilir. Sistem, randevu saatlerinin çakışma durumunu kontrol eden onay mekanizmasına sahiptir. |
+| **Yapay Zeka (AI) Entegrasyonu** | Kullanıcıların vücut ölçüleri (boy/kilo/yaş) ve hedef bilgisi girilerek, yapay zekâ mantığı ile kendilerine uygun egzersiz ve diyet planı önerileri sunulur. |
+| **Raporlama & REST API** | Projede REST API kullanılarak veritabanı ile iletişim sağlanmıştır. API üzerinden **LINQ sorguları** ile Antrenör, Hizmet ve Randevu verileri JSON formatında sunulur. |
+| **Yetkilendirme (Auth)** | **Rol bazlı yetkilendirme** (Admin ve Üye) uygulanmıştır. Tüm temel formlarda (Client ve Server Side) veri doğrulama (Data Validation) mevcuttur. |
 
 ## 🛠️ Kullanılan Teknolojiler
 
-* [cite_start]**Backend:** ASP.NET Core MVC (Güncel LTS), C# [cite: 36, 37]
-* [cite_start]**Veritabanı:** PostgreSQL [cite: 38]
-* [cite_start]**ORM:** Entity Framework Core (EF Core), LINQ [cite: 39]
-* [cite_start]**Arayüz:** HTML5, CSS3, JavaScript, jQuery [cite: 41]
-* [cite_start]**Tasarım:** Bootstrap 5 (Responsive ve modern tema) [cite: 40]
-* [cite_start]**Versiyon Kontrol:** Git & GitHub (Düzenli commitler ile projenin gelişimi takip edilmiştir.) [cite: 62, 65]
+* **Backend Çatısı:** ASP.NET Core MVC (Güncel LTS Sürümü)
+* **Programlama Dili:** C#
+* **Veritabanı:** PostgreSQL
+* **Veri Yönetimi:** Entity Framework Core (ORM), LINQ
+* **Arayüz:** Bootstrap 5, HTML5, CSS3, JavaScript
+* **Geliştirme Metodu:** Git & GitHub (Düzenli komitler ile geliştirme süreci kayıt altına alınmıştır.)
 
 ## 🔑 Varsayılan Giriş Bilgileri
 
-Sistemde tanımlı iki rol mevcuttur.
+Sistemde tanımlı Admin rolü, tüm yönetim işlemlerini gerçekleştirebilir.
 
 | Rol | Amaç | Giriş Bilgisi |
 | :--- | :--- | :--- |
-| **Admin** | [cite_start]Antrenör ve Hizmet yönetimi, tüm randevuları görme. [cite: 47, 51] | [cite_start]**Email:** `ogrencinumarasi@sakarya.edu.tr` / **Şifre:** `sau` [cite: 51] |
-| **Üye** | [cite_start]Randevu alma, AI Antrenör kullanma, kendi randevularını görme. [cite: 52] | Kayıt sayfasından oluşturulur. |
+| **Admin** | Antrenör, Hizmet ve tüm randevuların yönetimi. | **Email:** `ogrencinumarasi@sakarya.edu.tr` / **Şifre:** `sau` |
+| **Üye** | Randevu alma, AI Antrenör kullanma. | Kayıt sayfasından oluşturulur. |
 
 ## 💻 Projeyi Çalıştırma
 
-1.  Projeyi klonlayın.
-2.  PostgreSQL veritabanınızı kurun ve `appsettings.json` dosyasındaki bağlantı dizesini güncelleyin.
-3.  Terminalde: `dotnet restore`
-4.  Terminalde: `dotnet run`
-5.  Tarayıcıda `http://localhost:5271` adresini ziyaret edin.
+1. Projeyi klonlayın.
+2. PostgreSQL veritabanınızı kurun ve `appsettings.json` dosyasındaki bağlantı dizesini güncelleyin.
+3. Terminalde: `dotnet restore`
+4. Terminalde: `dotnet run`
+5. Tarayıcıda `http://localhost:5271` adresini ziyaret edin.
 
 ---
-**Geliştirici:** NUMAN AK - B221210105
+
+**Geliştirici:** Numan AK - B221210105

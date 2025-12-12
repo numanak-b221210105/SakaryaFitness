@@ -1,8 +1,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SakaryaFitnessApp.Data;
+using System.Security.Claims; // Claim için gerekli
 
 var builder = WebApplication.CreateBuilder(args);
+
+// --- 1. ZAMAN DİLİMİ HATA ÇÖZÜMÜ ---
+// PostgreSQL'den gelen zaman dilimsiz (Unspecified) tarihleri UTC olarak kabul et.
+// Bu, Randevu sistemindeki ArgumentException hatasını çözer.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true); 
 
 // Veritabanı Bağlantısı
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -26,7 +33,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// GÜVENLİ VERİTABANI OLUŞTURMA VE ADMİN EKLEME
+// --- 2. GÜVENLİ VERİTABANI OLUŞTURMA VE ADMİN EKLEME/GÜNCELLEME ---
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -42,29 +49,33 @@ using (var scope = app.Services.CreateScope())
         if (!await roleManager.RoleExistsAsync("Admin")) await roleManager.CreateAsync(new IdentityRole("Admin"));
         if (!await roleManager.RoleExistsAsync("Member")) await roleManager.CreateAsync(new IdentityRole("Member"));
 
-        // Admin Kullanıcısını Ekle (Hata Kontrollü)
+        // Admin Kullanıcısını Ekle veya Güncelle
         string adminEmail = "b221210105@sakarya.edu.tr"; 
-        if (await userManager.FindByEmailAsync(adminEmail) == null)
+        string adminName = "Yönetici"; 
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+        if (adminUser == null)
         {
-            var adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
-            
-            // Kullanıcıyı oluşturmayı dene
+            // Yeni oluşturma
+            adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
             var result = await userManager.CreateAsync(adminUser, "sau");
             
-            // SADECE BAŞARILI OLURSA ROL VER
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(adminUser, "Admin");
-                Console.WriteLine(">>>> ADMİN KULLANICISI BAŞARIYLA OLUŞTURULDU! <<<<");
+                // Yeni oluştururken isim (Claim) ekle
+                await userManager.AddClaimAsync(adminUser, new Claim("FullName", adminName));
+                Console.WriteLine($">>>> ADMİN '{adminName}' KULLANICISI BAŞARIYLA OLUŞTURULDU! <<<<");
             }
-            else
+        }
+        else
+        {
+            // ZATEN VARSA: İsim (Claim) kontrolü yap ve yoksa ekle
+            var claims = await userManager.GetClaimsAsync(adminUser);
+            if (!claims.Any(c => c.Type == "FullName"))
             {
-                // Başarısız olursa nedenini yazdır (Çökme engellenir)
-                Console.WriteLine(">>>> ADMİN OLUŞTURULAMADI! SEBEPLER: <<<<");
-                foreach (var err in result.Errors)
-                {
-                    Console.WriteLine($"- {err.Description}");
-                }
+                await userManager.AddClaimAsync(adminUser, new Claim("FullName", adminName));
+                Console.WriteLine($">>>> VAR OLAN ADMİN KULLANICISINA '{adminName}' İSMİ EKLENDİ. <<<<");
             }
         }
     }

@@ -23,6 +23,12 @@
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 small mb-3" role="alert"></div>
 
                         <div class="form-floating mb-3">
+                            <input asp-for="Input.FullName" class="form-control rounded-3 bg-light border-0" aria-required="true" placeholder="Ad Soyad" />
+                            <label asp-for="Input.FullName" class="text-muted"><i class="bi bi-person-badge me-2"></i>Ad Soyad</label>
+                            <span asp-validation-for="Input.FullName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
                             <input asp-for="Input.Email" class="form-control rounded-3 bg-light border-0" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                             <label asp-for="Input.Email" class="text-muted"><i class="bi bi-envelope-fill me-2"></i>E-posta Adresi</label>
                             <span asp-validation-for="Input.Email" class="text-danger small"></span>
