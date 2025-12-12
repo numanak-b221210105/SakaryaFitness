@@ -1,0 +1,41 @@
+@model SakaryaFitnessApp.Models.Trainer
+
+@{
+    ViewData["Title"] = "Yeni Antrenör Ekle";
+}
+
+<h1>Yeni Antrenör Ekle</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group mb-3">
+                <label class="control-label">Ad Soyad</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label class="control-label">Uzmanlık Alanı</label>
+                <input asp-for="Expertise" class="form-control" />
+                <span asp-validation-for="Expertise" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label class="control-label">Fotoğraf Yükle</label>
+                <input type="file" name="file" class="form-control" />
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

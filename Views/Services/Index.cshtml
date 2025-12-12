@@ -1,0 +1,46 @@
+@model IEnumerable<SakaryaFitnessApp.Models.Service>
+
+@{
+    ViewData["Title"] = "Hizmetler";
+}
+
+<h1>Hizmet Listesi</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Yeni Hizmet Ekle</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Resim</th>
+            <th>Hizmet Adı</th>
+            <th>Süre (Dk)</th>
+            <th>Fiyat</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @if(!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                    <img src="@item.ImageUrl" width="80" height="60" style="object-fit:cover; border-radius:5px;" />
+                }
+                else
+                {
+                    <span>Yok</span>
+                }
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.DurationMinutes)</td>
+            <td>@Html.DisplayFor(modelItem => item.Price) ₺</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detay</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
