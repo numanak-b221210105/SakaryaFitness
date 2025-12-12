@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
@@ -43,6 +43,13 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/Hizmetler">Hizmet Yönetimi</a>
+                            </li>
+                        }
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark fw-bold" href="/YapayZeka">🤖 AI Antrenör</a>
                             </li>
                         }
                     </ul>

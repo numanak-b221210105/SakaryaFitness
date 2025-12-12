@@ -1,0 +1,116 @@
+@{
+    ViewData["Title"] = "AI Antrenör";
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4 fw-bold text-primary">
+        <i class="bi bi-robot"></i> AI Akıllı Antrenör
+    </h1>
+    <p class="lead text-muted">Vücut ölçülerinizi girin, size özel egzersiz ve beslenme planınızı anında oluşturalım.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-gradient bg-primary text-white p-4 text-center">
+                <h3 class="mb-1 fw-bold">
+                    <i class="bi bi-sliders"></i> Bilgilerinizi Girin
+                </h3>
+                <p class="mb-0 opacity-75">Kişiselleştirilmiş planınız için detaylar önemlidir.</p>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form asp-action="GeneratePlan" method="post">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Yaşınız</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-calendar-event"></i></span>
+                                <input type="number" name="age" class="form-control form-control-lg" required placeholder="Örn: 25" value="@ViewBag.UserAge" min="10" max="100" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Cinsiyet</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-gender-ambiguous"></i></span>
+                                <select name="gender" class="form-select form-select-lg">
+                                    <option value="erkek">Erkek</option>
+                                    <option value="kadin">Kadın</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Boy (cm)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-rulers"></i></span>
+                                <input type="number" name="height" class="form-control form-control-lg" required placeholder="Örn: 180" value="@ViewBag.UserHeight" min="100" max="250" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Kilo (kg)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-speedometer2"></i></span>
+                                <input type="number" name="weight" class="form-control form-control-lg" required placeholder="Örn: 80" value="@ViewBag.UserWeight" min="30" max="200" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold d-block">Hedefiniz Nedir?</label>
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="radio" class="btn-check" name="goal" id="goal1" value="kilo_ver" checked>
+                                <label class="btn btn-outline-primary w-100 h-100 p-3 text-center rounded-3" for="goal1">
+                                    <i class="bi bi-graph-down-arrow fs-2 d-block mb-2"></i>
+                                    Kilo Vermek & Yağ Yakmak
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" class="btn-check" name="goal" id="goal2" value="kas_yap">
+                                <label class="btn btn-outline-success w-100 h-100 p-3 text-center rounded-3" for="goal2">
+                                    <i class="bi bi-graph-up-arrow fs-2 d-block mb-2"></i>
+                                    Kas Kütlesi Kazanmak
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" class="btn-check" name="goal" id="goal3" value="form_koru">
+                                <label class="btn btn-outline-info w-100 h-100 p-3 text-center rounded-3" for="goal3">
+                                    <i class="bi bi-check-circle fs-2 d-block mb-2"></i>
+                                    Formumu Korumak
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 btn-lg rounded-pill py-3 fw-bold fs-5 shadow-sm mb-4">
+                        <i class="bi bi-stars"></i> Size Özel Planı Oluştur
+                    </button>
+                </form>
+
+                @if (ViewBag.Plan != null)
+                {
+                    <div class="card border-0 shadow-sm bg-light rounded-4 mt-5">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-success bg-opacity-25 text-success rounded-circle p-3 me-3">
+                                    <i class="bi bi-clipboard-check fs-3"></i>
+                                </div>
+                                <h4 class="card-title mb-0 fw-bold">📋 Senin İçin Hazırlanan Plan</h4>
+                            </div>
+                            <div class="fs-6">
+                                @Html.Raw(ViewBag.Plan)
+                            </div>
+                            <hr class="my-4">
+                            <p class="mb-0 small text-center text-muted fst-italic">
+                                <i class="bi bi-info-circle me-1"></i> Bu öneriler, girdiğiniz verilere dayalı genel tavsiyelerdir. Sağlıklı bir yaşam için lütfen bir uzmana danışmayı unutmayın.
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+}
