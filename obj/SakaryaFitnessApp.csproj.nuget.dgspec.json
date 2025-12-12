@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/numanak/Desktop/SakaryaFitnessApp/SakaryaFitnessApp.csproj": {}
+    "/Users/numanak/Desktop/SakaryaFitness/SakaryaFitnessApp.csproj": {}
   },
   "projects": {
-    "/Users/numanak/Desktop/SakaryaFitnessApp/SakaryaFitnessApp.csproj": {
+    "/Users/numanak/Desktop/SakaryaFitness/SakaryaFitnessApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/numanak/Desktop/SakaryaFitnessApp/SakaryaFitnessApp.csproj",
+        "projectUniqueName": "/Users/numanak/Desktop/SakaryaFitness/SakaryaFitnessApp.csproj",
         "projectName": "SakaryaFitnessApp",
-        "projectPath": "/Users/numanak/Desktop/SakaryaFitnessApp/SakaryaFitnessApp.csproj",
+        "projectPath": "/Users/numanak/Desktop/SakaryaFitness/SakaryaFitnessApp.csproj",
         "packagesPath": "/Users/numanak/.nuget/packages/",
-        "outputPath": "/Users/numanak/Desktop/SakaryaFitnessApp/obj/",
+        "outputPath": "/Users/numanak/Desktop/SakaryaFitness/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/numanak/.nuget/NuGet/NuGet.Config"

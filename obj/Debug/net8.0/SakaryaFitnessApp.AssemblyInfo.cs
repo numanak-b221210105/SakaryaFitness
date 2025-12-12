@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SakaryaFitnessApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c965be6c126aa6d93e36e4c142e97736c218d4ef")]
 [assembly: System.Reflection.AssemblyProductAttribute("SakaryaFitnessApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SakaryaFitnessApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
