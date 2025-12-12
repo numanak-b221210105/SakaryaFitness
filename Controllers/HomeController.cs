@@ -28,6 +28,13 @@ public class HomeController : Controller
         return View();
     }
 
+    // EKLENEN KISIM: API Test sayfasını açmak için gerekli metod
+    // Adres çubuğunda "/Home/ApiTest" yazınca burası çalışır
+    public IActionResult ApiTest()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
