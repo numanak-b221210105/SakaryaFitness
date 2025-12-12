@@ -2,16 +2,23 @@
 
 @{
     ViewData["Title"] = "Randevularım";
-    var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    // Randevunun sahibi
+    var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value; 
+    
+    // Yetki Kontrolleri
     var isAdmin = User.IsInRole("Admin");
+    var isMember = User.IsInRole("Member"); 
 }
 
 <h1 class="display-4 fw-bold mb-4">Randevu Listesi</h1>
 
 <div class="mb-4">
-    <a asp-action="Create" class="btn btn-success btn-lg rounded-pill px-4 shadow-sm">
-        <i class="bi bi-calendar-plus me-2"></i> Yeni Randevu Al
-    </a>
+    @if (isMember) 
+    {
+        <a asp-action="Create" class="btn btn-success btn-lg rounded-pill px-4 shadow-sm">
+            <i class="bi bi-calendar-plus me-2"></i> Yeni Randevu Al
+        </a>
+    }
 </div>
 
 <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
@@ -27,7 +34,7 @@
         </thead>
         <tbody>
     @foreach (var item in Model) {
-        // Butonların görünürlüğünü kontrol eden değişken
+        // Admin VEYA randevunun sahibi ise yönetebilir
         var canManage = isAdmin || (item.MemberId == currentUserId);
 
             <tr>
@@ -42,9 +49,28 @@
                 <td>@Html.DisplayFor(modelItem => item.Service.Name)</td>
                 <td>
                     @{
-                        string badgeClass = item.Status == "Onay Bekliyor" ? "bg-warning" : "bg-success";
+                        string badgeClass;
+                        string textColor = "text-white"; 
+
+                        // Durum Kontrolü ve Renk Ataması
+                        switch (item.Status)
+                        {
+                            case "Tamamlandı":
+                                badgeClass = "bg-primary"; // Mavi
+                                break;
+                            case "Onaylandı":
+                                badgeClass = "bg-success"; // Yeşil
+                                break;
+                            case "Reddedildi":
+                                badgeClass = "bg-danger"; // Kırmızı
+                                break;
+                            default: // Onay Bekliyor
+                                badgeClass = "bg-warning"; // Sarı
+                                textColor = "text-dark"; // Sarı üzerinde siyah metin
+                                break;
+                        }
                     }
-                    <span class="badge @badgeClass text-dark">@item.Status</span>
+                    <span class="badge @badgeClass @textColor">@item.Status</span>
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Detay</a>

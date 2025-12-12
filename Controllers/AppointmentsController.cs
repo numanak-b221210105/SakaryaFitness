@@ -37,7 +37,6 @@ namespace SakaryaFitnessApp.Controllers
                 .AsQueryable();
 
             // SADECE ÜYE İSE, KENDİSİNİN ALDIĞI RANDEVULARI GÖSTER
-            // Bu, güvenlik ve görünürlük açısından önemlidir.
             if (!isAdmin)
             {
                 randevular = randevular.Where(a => a.MemberId == userId);
@@ -66,7 +65,8 @@ namespace SakaryaFitnessApp.Controllers
             return View(appointment);
         }
 
-        // YENİ EKLEME (GET)
+        // YENİ EKLEME (GET) - SADECE ÜYELER İÇİN
+        [Authorize(Roles = "Member")] // <<< SADECE ÜYELERİN YENİ OLUŞTURMASINI SAĞLAR
         [Route("Yeni")]
         public IActionResult Create()
         {
@@ -75,7 +75,8 @@ namespace SakaryaFitnessApp.Controllers
             return View();
         }
 
-        // YENİ EKLEME (POST)
+        // YENİ EKLEME (POST) - SADECE ÜYELER İÇİN
+        [Authorize(Roles = "Member")] // <<< SADECE ÜYELERİN YENİ OLUŞTURMASINI SAĞLAR
         [HttpPost("Yeni")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,TrainerId,ServiceId")] Appointment appointment)
@@ -83,7 +84,7 @@ namespace SakaryaFitnessApp.Controllers
             appointment.Date = DateTime.SpecifyKind(appointment.Date, DateTimeKind.Utc);
             
             appointment.MemberId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            appointment.Status = "Onay Bekliyor"; 
+            appointment.Status = "Onay Bekliyor"; // Randevuyu "Onay Bekliyor" olarak başlatır
 
             // Çakışma Kontrolü
             bool cakisma = _context.Appointments.Any(a => 
