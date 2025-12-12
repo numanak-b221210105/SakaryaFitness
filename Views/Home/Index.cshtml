@@ -2,8 +2,104 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Hoş Geldiniz</h1>
-    <p>Sakarya Fitness Salonu yönetim paneline hoş geldiniz.</p>
-    <p>Yukarıdaki menüden işlemleri gerçekleştirebilirsiniz.</p>
+<div class="position-relative p-5 text-center text-white mb-5 rounded-4 shadow-lg" 
+     style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop'); background-size: cover; background-position: center; height: 500px; display: flex; align-items: center; justify-content: center;">
+    <div class="col-md-8 mx-auto">
+        <h1 class="display-3 fw-bold mb-3">Sınırlarını Zorla, Gücünü Keşfet!</h1>
+        <p class="fs-4 mb-4">Sakarya'nın en modern fitness salonunda, profesyonel antrenörler ve yapay zeka destekli programlarla hedeflerine ulaş.</p>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a href="/Kayit" class="btn btn-primary btn-lg px-5 gap-3 rounded-pill fw-bold">Hemen Üye Ol</a>
+                <a href="/Giris" class="btn btn-outline-light btn-lg px-5 rounded-pill fw-bold">Giriş Yap</a>
+            }
+            else
+            {
+                <a href="/Randevular" class="btn btn-success btn-lg px-5 rounded-pill fw-bold">Randevu Al</a>
+                <a href="/YapayZeka" class="btn btn-info btn-lg px-5 rounded-pill fw-bold text-white">🤖 AI Antrenör</a>
+            }
+        </div>
+    </div>
 </div>
+
+<div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+    
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+            <div class="card-body text-center p-4">
+                <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="bi bi-people-fill fs-3"></i>
+                </div>
+                <h3 class="fs-4 fw-bold">Uzman Antrenörler</h3>
+                <p class="text-muted">Alanında uzman, sertifikalı eğitmenlerimizle birebir çalışarak hedeflerine en hızlı şekilde ulaş.</p>
+                <a href="/Antrenorler" class="icon-link text-primary fw-bold text-decoration-none">
+                    Eğitmenleri Gör
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm hover-shadow transition-all" style="background-color: #f8f9fa;">
+            <div class="card-body text-center p-4">
+                <div class="feature-icon bg-info bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="bi bi-robot fs-3"></i>
+                </div>
+                <h3 class="fs-4 fw-bold">Yapay Zeka Desteği</h3>
+                <p class="text-muted">Vücut ölçülerini gir, yapay zeka sana özel beslenme ve antrenman programını saniyeler içinde hazırlasın.</p>
+                <a href="/YapayZeka" class="icon-link text-info fw-bold text-decoration-none">
+                    AI Antrenörü Dene
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+            <div class="card-body text-center p-4">
+                <div class="feature-icon bg-success bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="bi bi-activity fs-3"></i>
+                </div>
+                <h3 class="fs-4 fw-bold">Geniş Hizmet Ağı</h3>
+                <p class="text-muted">Yoga, Pilates, Fitness, Cardio ve daha fazlası. İhtiyacına uygun dersi seç ve hemen yerini ayırt.</p>
+                <a href="/Hizmetler" class="icon-link text-success fw-bold text-decoration-none">
+                    Hizmetleri İncele
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5 border-top">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <h2 class="fw-bold display-5 text-primary">50+</h2>
+            <p class="text-muted fs-5">Profesyonel Ekipman</p>
+        </div>
+        <div class="col-md-4">
+            <h2 class="fw-bold display-5 text-primary">10+</h2>
+            <p class="text-muted fs-5">Uzman Eğitmen</p>
+        </div>
+        <div class="col-md-4">
+            <h2 class="fw-bold display-5 text-primary">1000+</h2>
+            <p class="text-muted fs-5">Mutlu Üye</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+</style>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+}
