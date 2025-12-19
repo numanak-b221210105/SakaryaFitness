@@ -4,38 +4,65 @@
     ViewData["Title"] = "Antrenör Düzenle";
 }
 
-<h1 class="display-4 fw-bold mb-4">Antrenör Düzenle: @Model.FullName</h1>
+<h1 class="display-5 fw-bold mb-4 text-center text-warning">
+    <i class="bi bi-pencil-square me-2"></i>Antrenör Düzenle
+</h1>
 
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm rounded-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-4">
+            
+            <div class="card-header bg-warning bg-gradient text-dark p-3 rounded-top-4 border-0">
+                <h5 class="mb-0 text-center fw-bold">@Model.FullName</h5>
+            </div>
+
             <div class="card-body p-4">
+                
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="text-center mb-4">
+                        <img src="@Model.ImageUrl" alt="Mevcut Fotoğraf" 
+                             class="rounded-circle shadow border border-3 border-warning" 
+                             style="width: 120px; height: 120px; object-fit: cover;">
+                        <p class="text-muted small mt-2 mb-0">Şu anki fotoğraf</p>
+                    </div>
+                }
+
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                     <input type="hidden" asp-for="Id" />
                     
                     <div class="form-floating mb-3">
                         <input asp-for="FullName" class="form-control" placeholder="Ad Soyad" />
-                        <label asp-for="FullName"></label>
+                        <label asp-for="FullName"><i class="bi bi-person me-1"></i> Ad Soyad</label>
                         <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
 
                     <div class="form-floating mb-3">
                         <input asp-for="Expertise" class="form-control" placeholder="Örn: Fitness, Yoga" />
-                        <label asp-for="Expertise"></label>
+                        <label asp-for="Expertise"><i class="bi bi-star me-1"></i> Uzmanlık Alanı</label>
                         <span asp-validation-for="Expertise" class="text-danger"></span>
                     </div>
 
-                    <div class="form-floating mb-4">
+                    <div class="form-floating mb-3">
                         <input asp-for="ImageUrl" class="form-control" placeholder="Örn: http://..." />
-                        <label asp-for="ImageUrl"></label>
+                        <label asp-for="ImageUrl"><i class="bi bi-link-45deg me-1"></i> Fotoğraf URL</label>
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                        <small class="text-muted d-block mt-2">Mevcut fotoğraf: <a href="@Model.ImageUrl" target="_blank">@Model.ImageUrl</a></small>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <textarea asp-for="Description" class="form-control" placeholder="Biyografi" style="height: 150px"></textarea>
+                        <label asp-for="Description"><i class="bi bi-card-text me-1"></i> Hakkında / Biyografi</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-warning btn-lg"><i class="bi bi-save me-2"></i> Değişiklikleri Kaydet</button>
-                        <a asp-action="Index" class="btn btn-outline-secondary">Listeye Geri Dön</a>
+                        <button type="submit" class="btn btn-warning btn-lg rounded-pill shadow-sm fw-bold">
+                            <i class="bi bi-check-circle-fill me-2"></i> Değişiklikleri Kaydet
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill">
+                            <i class="bi bi-arrow-left me-2"></i> Listeye Geri Dön
+                        </a>
                     </div>
                 </form>
             </div>

@@ -1,36 +1,62 @@
 @model SakaryaFitnessApp.Models.Trainer
 
 @{
-    ViewData["Title"] = "Silme Onayı";
+    ViewData["Title"] = "Antrenörü Sil";
 }
 
-<div class="row justify-content-center">
+<div class="row justify-content-center py-5">
     <div class="col-lg-6 col-md-8">
-        <h1 class="text-danger fw-bold mb-4"><i class="bi bi-exclamation-triangle-fill me-2"></i> Silme Onayı</h1>
-        <p class="lead">
-            Bu antrenör kaydını **kalıcı olarak silmek** istediğinizden emin misiniz? Bu işlem geri alınamaz.
-        </p>
         
-        <div class="card shadow-sm rounded-4 border-danger border-2 mb-4">
-            <div class="card-body p-4">
-                <h4 class="card-title fw-bold">Silinecek Antrenör Detayları:</h4>
-                <ul class="list-group list-group-flush mt-3">
-                    <li class="list-group-item">
-                        <strong>@Html.DisplayNameFor(model => model.FullName):</strong> @Html.DisplayFor(model => model.FullName)
-                    </li>
-                    <li class="list-group-item">
-                        <strong>@Html.DisplayNameFor(model => model.Expertise):</strong> @Html.DisplayFor(model => model.Expertise)
-                    </li>
-                </ul>
+        <div class="alert alert-danger shadow-sm text-center mb-4 border-danger border-2" role="alert">
+            <i class="bi bi-exclamation-octagon-fill fs-1 d-block mb-2"></i>
+            <h4 class="fw-bold">Dikkat! Silme İşlemi</h4>
+            <p class="mb-0">Aşağıdaki antrenör kaydı <strong>kalıcı olarak silinecektir.</strong> Bu işlem geri alınamaz.</p>
+        </div>
+
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-danger text-white p-3 text-center">
+                <h5 class="mb-0"><i class="bi bi-trash3 me-2"></i> Silinecek Kayıt Özeti</h5>
+            </div>
+            
+            <div class="card-body p-4 text-center bg-light">
+                
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="rounded-circle shadow mb-3 border border-4 border-white" 
+                         alt="@Model.FullName" style="width: 140px; height: 140px; object-fit: cover;" />
+                }
+                else
+                {
+                    <div class="bg-white text-danger rounded-circle mx-auto d-flex align-items-center justify-content-center border border-danger mb-3" style="width: 120px; height: 120px;">
+                        <i class="bi bi-person-x-fill display-4"></i>
+                    </div>
+                }
+
+                <h3 class="fw-bold text-dark">@Model.FullName</h3>
+                <span class="badge bg-secondary fs-6 mb-3">@Model.Expertise</span>
+
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="bg-white p-3 rounded border text-muted fst-italic mt-2 shadow-sm text-start">
+                        <small><strong>Hakkında:</strong> @Model.Description</small>
+                    </div>
+                }
+            </div>
+
+            <div class="card-footer bg-white p-4">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill shadow-sm">
+                            <i class="bi bi-trash-fill me-2"></i> Evet, Kaydı Sil
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg rounded-pill">
+                            <i class="bi bi-x-circle me-2"></i> İptal Et
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
 
-        <form asp-action="Delete">
-            <input type="hidden" asp-for="Id" />
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a asp-action="Index" class="btn btn-secondary btn-lg">İptal Et ve Geri Dön</a>
-                <button type="submit" class="btn btn-danger btn-lg"><i class="bi bi-trash me-2"></i> Silmeyi Onayla</button>
-            </div>
-        </form>
     </div>
 </div>

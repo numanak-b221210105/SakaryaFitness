@@ -24,9 +24,21 @@ namespace SakaryaFitnessApp.Controllers
         }
 
         // GET: /Hizmetler (Index) - HERKES GÖREBİLİR
-        [AllowAnonymous] // <<< KRİTİK: Herkesin listeyi görmesini sağlar
+        [AllowAnonymous] 
         [Route("")]
-        public async Task<IActionResult> Index() => View(await _context.Services.ToListAsync());
+        public async Task<IActionResult> Index()
+        {
+            // Admin her şeyi görür, normal kullanıcı sadece "Aktif" olanları görür
+            if (User.IsInRole("Admin"))
+            {
+                return View(await _context.Services.ToListAsync());
+            }
+            else
+            {
+                // IsActive == true olanları getir
+                return View(await _context.Services.Where(s => s.IsActive).ToListAsync());
+            }
+        }
         
         // GET: /Hizmetler/Detay/5 - HERKES GÖREBİLİR
         [AllowAnonymous] 
@@ -34,8 +46,11 @@ namespace SakaryaFitnessApp.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
+            
             var service = await _context.Services.FirstOrDefaultAsync(m => m.Id == id);
+            
             if (service == null) return NotFound();
+
             return View(service);
         }
 
@@ -46,7 +61,8 @@ namespace SakaryaFitnessApp.Controllers
         // POST: /Hizmetler/Yeni (Create) - SADECE ADMIN
         [HttpPost("Yeni")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DurationMinutes,Price,ImageUrl")] Service service)
+        // DİKKAT: [Bind] içine Description ve IsActive eklendi!
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,DurationMinutes,Price,ImageUrl,IsActive")] Service service)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +86,8 @@ namespace SakaryaFitnessApp.Controllers
         // POST: /Hizmetler/Duzenle/5 (Edit) - SADECE ADMIN
         [HttpPost("Duzenle/{id?}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DurationMinutes,Price,ImageUrl")] Service service)
+        // DİKKAT: [Bind] içine Description ve IsActive eklendi!
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,DurationMinutes,Price,ImageUrl,IsActive")] Service service)
         {
             if (id != service.Id) return NotFound();
 

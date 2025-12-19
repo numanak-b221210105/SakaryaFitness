@@ -2,64 +2,88 @@
     ViewData["Title"] = "AI Antrenör";
 }
 
-<div class="container py-5">
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-primary">
+<div class="container py-4">
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold text-primary">
             <i class="bi bi-robot"></i> AI Akıllı Antrenör
         </h1>
-        <p class="lead text-muted">Vücut ölçülerinizi girin, size özel planınızı ve <strong>dönüşüm görselinizi</strong> hazırlayalım.</p>
+        @if (ViewBag.Plan == null)
+        {
+            <p class="lead text-muted">Vücut ölçülerinizi girin, size özel planınızı ve <strong>dönüşüm görselinizi</strong> hazırlayalım.</p>
+        }
     </div>
 
     @if (ViewBag.Error != null)
     {
-        <div class="alert alert-danger text-center">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i> @ViewBag.Error
+        <div class="alert alert-danger shadow-sm fw-bold">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-5" style="vertical-align: middle;"></i> @ViewBag.Error
         </div>
     }
 
     @if (ViewBag.Plan != null)
     {
-        <div class="row justify-content-center">
-            <div class="col-lg-10"> <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-                    <div class="card-header bg-success text-white p-4 text-center">
-                        <h2 class="h3 mb-0"><i class="bi bi-check-circle-fill me-2"></i> Analiz Tamamlandı!</h2>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="row g-0">
-                            <div class="col-lg-7 p-5">
-                                <h4 class="fw-bold mb-3 text-success">📋 Senin İçin Hazırlanan Plan</h4>
-                                <div class="mb-4">
-                                    <span class="badge bg-light text-dark border p-2 me-1">Yaş: @ViewBag.UserAge</span>
-                                    <span class="badge bg-light text-dark border p-2 me-1">Boy: @ViewBag.UserHeight cm</span>
-                                    <span class="badge bg-light text-dark border p-2">Kilo: @ViewBag.UserWeight kg</span>
-                                </div>
-                                <div class="plan-content fs-6" style="line-height: 1.7;">
-                                    @Html.Raw(ViewBag.Plan)
-                                </div>
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-5">
+            <div class="card-header bg-success text-white p-3 text-center">
+                <h2 class="h4 mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i> Analiz Başarıyla Tamamlandı!</h2>
+            </div>
+            <div class="card-body p-4 bg-light bg-opacity-50">
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-md-5 col-lg-4 text-center border-end-md">
+                        <h5 class="fw-bold text-primary mb-3">
+                            <i class="bi bi-image"></i> Hedeflenen Görünüm
+                        </h5>
+                        <div class="card shadow-sm border-0 mb-3">
+                            <img src="@ViewBag.ImageUrl" class="card-img-top rounded img-fluid" style="max-height: 350px; object-fit: cover;" alt="Hedef Görünüm">
+                             <div class="card-footer bg-white p-2 border-0">
+                                <small class="text-muted fst-italic">AI tarafından öngörülen temsili değişim</small>
                             </div>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                             <button onclick="window.print()" class="btn btn-outline-dark btn-sm rounded-pill px-4">
+                                <i class="bi bi-printer me-2"></i> Çıktı Al
+                            </button>
+                             <a href="/YapayZeka" class="btn btn-primary btn-sm rounded-pill px-4">
+                                <i class="bi bi-arrow-repeat me-2"></i> Yeni Analiz
+                            </a>
+                        </div>
+                    </div>
 
-                            <div class="col-lg-5 bg-light d-flex flex-column align-items-center justify-content-center p-4 border-start">
-                                <h5 class="fw-bold text-primary mb-3 text-center">
-                                    <i class="bi bi-image"></i> Hedeflenen Görünüm
-                                </h5>
-                                <div class="card shadow-sm border-0 w-100">
-                                    <img src="@ViewBag.ImageUrl" class="card-img-top rounded" alt="Hedef Görünüm">
-                                    <div class="card-body text-center p-2">
-                                        <small class="text-muted fst-italic">AI tarafından öngörülen değişim</small>
+                    <div class="col-md-7 col-lg-8 d-flex flex-column justify-content-center">
+                         <div class="ps-md-4">
+                            <h4 class="fw-bold text-success mb-4">📋 Kişisel Analiz Özeti</h4>
+                            <div class="bg-white p-4 rounded-3 shadow-sm border">
+                                <div class="row text-center g-3">
+                                    <div class="col-4 border-end">
+                                        <h6 class="text-muted mb-1">YAŞ</h6>
+                                        <span class="fs-4 fw-bold text-dark">@ViewBag.UserAge</span>
+                                    </div>
+                                    <div class="col-4 border-end">
+                                        <h6 class="text-muted mb-1">BOY</h6>
+                                        <span class="fs-4 fw-bold text-dark">@ViewBag.UserHeight <small class="fs-6">cm</small></span>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6 class="text-muted mb-1">KİLO</h6>
+                                        <span class="fs-4 fw-bold text-dark">@ViewBag.UserWeight <small class="fs-6">kg</small></span>
                                     </div>
                                 </div>
-                                <div class="mt-4 text-center">
-                                     <button onclick="window.print()" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-                                        <i class="bi bi-printer me-2"></i> Çıktı Al
-                                    </button>
-                                     <a href="/YapayZeka" class="btn btn-primary btn-sm rounded-pill px-3 ms-2">
-                                        <i class="bi bi-arrow-repeat me-2"></i> Yeni Analiz
-                                    </a>
-                                </div>
                             </div>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="fw-bold text-dark border-bottom pb-3 mb-3">
+                            <i class="bi bi-file-earmark-text me-2"></i> 4 Haftalık Detaylı Planınız
+                        </h5>
+                        <div class="plan-content bg-white p-4 rounded-3 shadow-sm border" 
+                             style="max-height: 500px; overflow-y: auto; line-height: 1.6; font-size: 0.95rem;">
+                            @Html.Raw(ViewBag.Plan)
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     }
@@ -67,7 +91,7 @@
     {
         <div class="row justify-content-center">
             <div class="col-lg-8 col-xl-7">
-                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card shadow rounded-4 overflow-hidden">
                     <div class="card-header bg-gradient bg-primary text-white p-4 text-center">
                         <h3 class="mb-1 fw-bold">
                             <i class="bi bi-sliders"></i> Bilgilerinizi Girin
@@ -79,7 +103,7 @@
                             <div class="row g-3 mb-4">
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Yaşınız</label>
-                                    <input type="number" name="age" class="form-control form-control-lg" required value="25" min="10" max="100" />
+                                    <input type="number" name="age" class="form-control form-control-lg" required placeholder="Örn: 25" min="10" max="100" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Cinsiyet</label>
@@ -90,11 +114,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Boy (cm)</label>
-                                    <input type="number" name="height" class="form-control form-control-lg" required value="175" min="100" max="250" />
+                                    <input type="number" name="height" class="form-control form-control-lg" required placeholder="Örn: 175" min="100" max="250" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Kilo (kg)</label>
-                                    <input type="number" name="weight" class="form-control form-control-lg" required value="75" min="30" max="200" />
+                                    <input type="number" name="weight" class="form-control form-control-lg" required placeholder="Örn: 75" min="30" max="200" />
                                 </div>
                             </div>
 

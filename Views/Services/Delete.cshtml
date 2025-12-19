@@ -4,36 +4,74 @@
     ViewData["Title"] = "Silme Onayı";
 }
 
-<div class="row justify-content-center">
-    <div class="col-lg-6 col-md-8">
-        <h1 class="text-danger fw-bold mb-4"><i class="bi bi-exclamation-triangle-fill me-2"></i> Silme Onayı</h1>
-        <p class="lead">
-            Bu hizmet kaydını **kalıcı olarak silmek** istediğinizden emin misiniz? Bu işlem geri alınamaz.
-        </p>
-        
-        <div class="card shadow-sm rounded-4 border-danger border-2 mb-4">
-            <div class="card-body p-4">
-                <h4 class="card-title fw-bold">Silinecek Hizmet Detayları:</h4>
-                <ul class="list-group list-group-flush mt-3">
-                    <li class="list-group-item">
-                        <strong>@Html.DisplayNameFor(model => model.Name):</strong> @Html.DisplayFor(model => model.Name)
-                    </li>
-                    <li class="list-group-item">
-                        <strong>@Html.DisplayNameFor(model => model.DurationMinutes):</strong> @Html.DisplayFor(model => model.DurationMinutes) dk
-                    </li>
-                    <li class="list-group-item">
-                        <strong>@Html.DisplayNameFor(model => model.Price):</strong> @Model.Price.ToString("C")
-                    </li>
-                </ul>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            
+            <div class="text-center mb-4">
+                <div class="text-danger mb-3">
+                    <i class="bi bi-exclamation-octagon-fill" style="font-size: 4rem;"></i>
+                </div>
+                <h2 class="fw-bold text-danger">Silmek İstediğinize Emin misiniz?</h2>
+                <p class="text-muted">
+                    Aşağıdaki hizmet <strong>kalıcı olarak</strong> veritabanından silinecektir. Bu işlem geri alınamaz.
+                    Eğer sadece gizlemek istiyorsanız, "Düzenle" sayfasından hizmeti pasife alabilirsiniz.
+                </p>
             </div>
-        </div>
 
-        <form asp-action="Delete">
-            <input type="hidden" asp-for="Id" />
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a asp-action="Index" class="btn btn-secondary btn-lg">İptal Et ve Geri Dön</a>
-                <button type="submit" class="btn btn-danger btn-lg"><i class="bi bi-trash me-2"></i> Silmeyi Onayla</button>
+            <div class="card shadow border-0 rounded-4 mb-4 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-4 position-relative">
+                        <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://via.placeholder.com/150" : Model.ImageUrl)" 
+                             class="img-fluid h-100 w-100" 
+                             style="object-fit: cover; min-height: 150px;" 
+                             alt="@Model.Name"
+                             onerror="this.src='https://via.placeholder.com/150?text=Resim+Yok';"/>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold text-dark">@Model.Name</h5>
+                            
+                            <p class="card-text text-muted small mb-2">
+                                @if (!string.IsNullOrEmpty(Model.Description) && Model.Description.Length > 60)
+                                {
+                                    @Model.Description.Substring(0, 60)<span>...</span>
+                                }
+                                else
+                                {
+                                    @Model.Description
+                                }
+                            </p>
+
+                            <div class="d-flex gap-2 mb-2">
+                                <span class="badge bg-secondary">@Model.DurationMinutes dk</span>
+                                <span class="badge bg-success">@Model.Price.ToString("C2")</span>
+                                @if (Model.IsActive)
+                                {
+                                    <span class="badge bg-primary">Aktif</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Pasif</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
+
+            <form asp-action="Delete" class="d-grid gap-2">
+                <input type="hidden" asp-for="Id" />
+                
+                <button type="submit" class="btn btn-danger btn-lg shadow-sm">
+                    <i class="bi bi-trash-fill me-2"></i> Evet, Kalıcı Olarak Sil
+                </button>
+                
+                <a asp-action="Index" class="btn btn-light btn-lg border">
+                    Hayır, Vazgeç
+                </a>
+            </form>
+            
+        </div>
     </div>
 </div>

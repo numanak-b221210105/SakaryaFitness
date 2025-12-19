@@ -24,7 +24,7 @@ namespace SakaryaFitnessApp.Controllers
         }
 
         // GET: /Antrenorler (Index) - HERKES GÖREBİLİR
-        [AllowAnonymous] // <<< KRİTİK: Herkesin listeyi görmesini sağlar
+        [AllowAnonymous] 
         [Route("")]
         public async Task<IActionResult> Index()
         {
@@ -51,7 +51,8 @@ namespace SakaryaFitnessApp.Controllers
         [Authorize(Roles = "Admin")] 
         [HttpPost("Yeni")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,Expertise,ImageUrl")] Trainer trainer)
+        // 👇 AŞAĞIDAKİ SATIRA DİKKAT: "Description" EKLENDİ 👇
+        public async Task<IActionResult> Create([Bind("Id,FullName,Expertise,ImageUrl,Description")] Trainer trainer)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +78,8 @@ namespace SakaryaFitnessApp.Controllers
         [Authorize(Roles = "Admin")] 
         [HttpPost("Duzenle/{id?}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Expertise,ImageUrl")] Trainer trainer)
+        // 👇 AŞAĞIDAKİ SATIRA DİKKAT: "Description" EKLENDİ 👇
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,Expertise,ImageUrl,Description")] Trainer trainer)
         {
             if (id != trainer.Id) return NotFound();
             if (ModelState.IsValid)

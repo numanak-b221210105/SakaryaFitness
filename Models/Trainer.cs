@@ -8,15 +8,20 @@ namespace SakaryaFitnessApp.Models
 
         [Required(ErrorMessage = "Ad Soyad zorunludur.")]
         [Display(Name = "Antrenör Adı")]
-        public string FullName { get; set; } = string.Empty; // <-- Uyarı giderildi
+        public string FullName { get; set; } = string.Empty;
 
         [Display(Name = "Uzmanlık Alanı")]
-        public string Expertise { get; set; } = string.Empty; // <-- Uyarı giderildi
+        public string Expertise { get; set; } = string.Empty;
 
         [Display(Name = "Fotoğraf")]
-        public string? ImageUrl { get; set; } 
+        public string? ImageUrl { get; set; }
+
+        // --- YENİ EKLENEN ALAN ---
+        [Display(Name = "Hakkında / Biyografi")]
+        public string? Description { get; set; } // Antrenör hakkında detaylı bilgi
+        // -------------------------
 
         // İlişkiler
-        public ICollection<Appointment>? Appointments { get; set; } // <-- Null atanabilir
+        public ICollection<Appointment>? Appointments { get; set; }
     }
 }
